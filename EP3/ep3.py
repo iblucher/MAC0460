@@ -12,8 +12,19 @@ def logistic_fit(X, y, w = None, batch_size = None, learning_rate = 1e-2, num_it
     :param learning_rate: parâmetro real do gradient descent
     :param num_iterations: quantidade de vezes que o conjunto X é percorrido
     :param return_history: booleano, controla output da função
-    :return w_update: array 1D (d + 1 x 1) de pesos ao final das iterações
+    :return w_final: array 1D (d + 1 x 1) de pesos ao final das iterações
     '''
+
+    # verificar se w foi inicializado, se não, gerar aleatório
+
+    # colocar a coluna de 1s no array X
+
+    # iterar até num_iterations
+    # calcular gradiente com numpy (tomar cuidado com dimensões dos vetores)
+    # atualizar vetor de pesos
+
+    # devolver w final
+
     pass
 
 
@@ -25,5 +36,8 @@ def logistic_predict(X, w):
     :param w: array 1D (d + 1 x 1) correspondendo a um vetor de pesos incial
     :return predictions: array 1D (N x 1) de predições
     '''
+    
+    # predictions = sigmoid(w^T * X)
+
     pass
 
