@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def logistic_fit(X, y, w = None, batch_size = None, learning_rate = 1e-2, num_iterations = 1000, return_history = False):
     '''
     Função que encontra o vetor de pesos
@@ -15,17 +14,23 @@ def logistic_fit(X, y, w = None, batch_size = None, learning_rate = 1e-2, num_it
     :return w_final: array 1D (d + 1 x 1) de pesos ao final das iterações
     '''
 
-    # verificar se w foi inicializado, se não, gerar aleatório
+    it = 0
+    N = X.shape[0]
+    
+    if w == None:
+        # initialize w randomly
+        pass
 
-    # colocar a coluna de 1s no array X
+    X = np.concatenate((np.ones((N, 1)), X), axis=1)
 
-    # iterar até num_iterations
-    # calcular gradiente com numpy (tomar cuidado com dimensões dos vetores)
-    # atualizar vetor de pesos
+    while it <= num_iterations:
+        z = np.dot(X, w)
+        h = 1.0 / (1 + np.exp(-z))
+        gradient = np.dot(X.T, (h - y)) / N 
+        w = w - learning_rate * gradient
+        it += 1
 
-    # devolver w final
-
-    pass
+    return w
 
 
 def logistic_predict(X, w):
@@ -37,7 +42,9 @@ def logistic_predict(X, w):
     :return predictions: array 1D (N x 1) de predições
     '''
     
-    # predictions = sigmoid(w^T * X)
+    z = np.dot(X, w)
+    predictions = 1.0 / (1 + np.exp(-z))
 
-    pass
+
+    return predictions
 
