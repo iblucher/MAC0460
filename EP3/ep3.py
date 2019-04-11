@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 def logistic_fit(X, y, w = None, batch_size = None, learning_rate = 1e-2, num_iterations = 1000, return_history = False):
     '''
@@ -18,8 +19,10 @@ def logistic_fit(X, y, w = None, batch_size = None, learning_rate = 1e-2, num_it
     N = X.shape[0]
     
     if w == None:
-        # initialize w randomly
         pass
+        #w = []
+        #for i in range (len(y)):
+        #    w.append(np.random.uniform(0.1, 5))
 
     X = np.concatenate((np.ones((N, 1)), X), axis=1)
 
@@ -48,3 +51,19 @@ def logistic_predict(X, w):
 
     return predictions
 
+def plot2D(mean1, mean2, cov1, cov2, size1, size2):
+    data1 = np.random.multivariate_normal(mean1, cov1, size1).T
+    data2 = np.random.multivariate_normal(mean2, cov2, size2).T
+    return (data1, data2)
+
+'''
+mean1 = (4, 2)
+mean2 = (10, 2)
+cov1 = [[2, 0], [0, 2]]
+
+a, b = plot2D(mean1, mean2, cov1, cov1, 10000, 10000)
+
+c = np.ones(len(a[0]))
+
+w = logistic_fit(a, c)
+'''
