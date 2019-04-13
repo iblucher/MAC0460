@@ -19,10 +19,10 @@ def logistic_fit(X, y, w = None, batch_size = None, learning_rate = 1e-2, num_it
     N = X.shape[0]
     
     if w == None:
-        pass
-        #w = []
-        #for i in range (len(y)):
-        #    w.append(np.random.uniform(0.1, 5))
+        #pass
+        w = []
+        w = [np.random.uniform(0.1, 5) for _ in range(N)]
+        w = np.reshape(w, (1, N))
 
     X = np.concatenate((np.ones((N, 1)), X), axis=1)
 
@@ -51,19 +51,36 @@ def logistic_predict(X, w):
 
     return predictions
 
-def plot2D(mean1, mean2, cov1, cov2, size1, size2):
+def plot_2D(mean1, mean2, cov1, cov2, size1, size2):
     data1 = np.random.multivariate_normal(mean1, cov1, size1).T
     data2 = np.random.multivariate_normal(mean2, cov2, size2).T
-    return (data1, data2)
 
-'''
+    X = np.concatenate((data1.T, data2.T), axis = 0)
+
+    return (X)
+
 mean1 = (4, 2)
 mean2 = (10, 2)
 cov1 = [[2, 0], [0, 2]]
 
-a, b = plot2D(mean1, mean2, cov1, cov1, 10000, 10000)
+X = plot_2D(mean1, mean2, cov1, cov1, 10000, 10000)
 
+size = len(X)
+y1 = np.ones((size, 1))
+y2 = [-1 for _ in range(size)]
+y2 = np.reshape(y2, (size, 1))
+
+y = np.concatenate((y1, y2), axis = 0)
+
+w = logistic_fit(X, y)
+
+#pre = logistic_predict(X, w)
+
+
+
+
+"""
 c = np.ones(len(a[0]))
 
 w = logistic_fit(a, c)
-'''
+"""
