@@ -2,6 +2,10 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 import itertools
+import sklearn.datasets
+
+def sigmoid(z):
+    return 1.0 / (1 + np.exp(-z))
 
 def logistic_fit(X, y, w = None, batch_size = None, learning_rate = 1e-2, num_iterations = 1000, return_history = False):
     '''
@@ -17,26 +21,24 @@ def logistic_fit(X, y, w = None, batch_size = None, learning_rate = 1e-2, num_it
     :return w_final: array 1D (d + 1 x 1) de pesos ao final das iterações
     '''
 
-    it = 0
     N, d = X.shape
+    X = np.concatenate((np.ones((N, 1)), X), axis=1)
+    y = np.reshape(y, (y.shape[0], 1))
     
     if w == None:
-        #pass
-        w = []
-        w = [np.random.uniform(-10, 10) for _ in range(d + 1)]
+        w = [np.random.uniform(-1, 1) for _ in range(d + 1)]
         w = np.reshape(w, (d + 1, 1))
-        """OI, ISA
-        alterei os parâmetros do w pra ver se ajudava, mas não deu em muita coisa. 
-        """
 
-    X = np.concatenate((np.ones((N, 1)), X), axis=1)
-
-    while it <= num_iterations:
+    for i in range(num_iterations):
+        # compute gradient
         z = np.dot(X, w)
-        h = 1.0 / (1 + np.exp(-z))
-        gradient = np.dot(X.T, (h - y)) / N 
-        w = w - learning_rate * gradient
-        it += 1
+        h = sigmoid(z)
+        gradient = np.dot(X.T, (h - y)) / N
+
+        # update w
+        w -= learning_rate * gradient
+
+        # append to cost history
 
     return w
 
@@ -52,7 +54,7 @@ def logistic_predict(X, w):
     X = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
     
     z = np.dot(X, w)
-    predictions = 1.0 / (1 + np.exp(-z))
+    predictions = sigmoid(z)
     
     return predictions
 
@@ -60,18 +62,14 @@ def plot_2D(mean1, mean2, cov1, cov2, size1, size2):
     x1 = np.random.multivariate_normal(mean1, cov1, size1).T
     y1 = np.ones((x1.shape[1], 1))
     x2 = np.random.multivariate_normal(mean2, cov2, size2).T
-    y2 = np.negative(y1)
+    y2 = np.zeros((x2.shape[1], 1))
     
     X = np.concatenate((x1.T, x2.T), axis = 0)
     y = np.concatenate((y1, y2), axis = 0)
 
     return (X, y)
 
-""" OI, ISA
-Essa função tá aaabsurdamente lenta por ficar plotando um ponto de 
-cada vez. Mas não consegui fazer plotar com um array de cores, como
-tá na linha 81. tô com sono, send help
-"""
+
 def plot_it(X, pred):
     for i in range(len(pred)):
         if pred[i] > 0.5:
@@ -83,31 +81,26 @@ def plot_it(X, pred):
     
     #plt.plot(X.T[0], X.T[1], 'x', marker = '.', color = colors)
 
+
 mean1 = (4, 2)
 mean2 = (10, 2)
 cov1 = [[2, 0], [0, 2]]
 
 X, y = plot_2D(mean1, mean2, cov1, cov1, 1000, 1000)
+print(X, y)
 
-w = logistic_fit(X, y)
+# iris = sklearn.datasets.load_iris()
+# X = iris.data[:, :2]
+# y = (iris.target != 0) * 1
+# print(X, y)
+
+w = logistic_fit(X, y, learning_rate=0.1, num_iterations=10000)
 pred = logistic_predict(X, w)
 
 print(pred)
 
 plot_it(X, pred)
 
-
-""" OI, ISA
-https://www.youtube.com/watch?v=sGF6bOi1NfA
-"""
-
-#print()
-
-# plt.plot(data1[0], data1[1], 'x', marker = '.')
-# plt.plot(data2[0], data2[1], 'x', marker = '.')
-
-# plt.axis('equal')
-# plt.show()
 
 
 
