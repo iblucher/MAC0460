@@ -1,6 +1,7 @@
 import numpy as np
 import random
 import matplotlib.pyplot as plt
+import itertools
 
 def logistic_fit(X, y, w = None, batch_size = None, learning_rate = 1e-2, num_iterations = 1000, return_history = False):
     '''
@@ -22,8 +23,11 @@ def logistic_fit(X, y, w = None, batch_size = None, learning_rate = 1e-2, num_it
     if w == None:
         #pass
         w = []
-        w = [np.random.uniform(0.1, 5) for _ in range(d + 1)]
+        w = [np.random.uniform(-10, 10) for _ in range(d + 1)]
         w = np.reshape(w, (d + 1, 1))
+        """OI, ISA
+        alterei os parâmetros do w pra ver se ajudava, mas não deu em muita coisa. 
+        """
 
     X = np.concatenate((np.ones((N, 1)), X), axis=1)
 
@@ -57,25 +61,47 @@ def plot_2D(mean1, mean2, cov1, cov2, size1, size2):
     y1 = np.ones((x1.shape[1], 1))
     x2 = np.random.multivariate_normal(mean2, cov2, size2).T
     y2 = np.negative(y1)
-
+    
     X = np.concatenate((x1.T, x2.T), axis = 0)
     y = np.concatenate((y1, y2), axis = 0)
 
     return (X, y)
 
+""" OI, ISA
+Essa função tá aaabsurdamente lenta por ficar plotando um ponto de 
+cada vez. Mas não consegui fazer plotar com um array de cores, como
+tá na linha 81. tô com sono, send help
+"""
+def plot_it(X, pred):
+    for i in range(len(pred)):
+        if pred[i] > 0.5:
+            color = 'r'
+        else:
+            color = 'b'
+        plt.plot(X.T[0][i], X.T[1][i], 'x', marker = '.', color = color)
+    plt.show()
+    
+    #plt.plot(X.T[0], X.T[1], 'x', marker = '.', color = colors)
+
 mean1 = (4, 2)
 mean2 = (10, 2)
 cov1 = [[2, 0], [0, 2]]
 
-X, y = plot_2D(mean1, mean2, cov1, cov1, 10, 10)
-
-print(X)
-print(y)
+X, y = plot_2D(mean1, mean2, cov1, cov1, 1000, 1000)
 
 w = logistic_fit(X, y)
 pred = logistic_predict(X, w)
 
-print(w, pred)
+print(pred)
+
+plot_it(X, pred)
+
+
+""" OI, ISA
+https://www.youtube.com/watch?v=sGF6bOi1NfA
+"""
+
+#print()
 
 # plt.plot(data1[0], data1[1], 'x', marker = '.')
 # plt.plot(data2[0], data2[1], 'x', marker = '.')
