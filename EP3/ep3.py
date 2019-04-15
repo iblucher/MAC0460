@@ -1,3 +1,10 @@
+'''
+    Entrega do EP3 de MAC0460 
+    Arquivo: ep3.py
+    Alunas: Isabela Blucher e Veronica Stocco
+    NUSP: 9298170 e 6828626
+'''
+
 import numpy as np
 import random
 import matplotlib.pyplot as plt
@@ -5,8 +12,22 @@ import itertools
 import sklearn.datasets
 import seaborn as sns
 
+
+def generate_dataset(mean1, mean2, cov1, cov2, size1, size2):
+    x1 = np.random.multivariate_normal(mean1, cov1, size1).T
+    y1 = np.ones((x1.shape[1], 1))
+    x2 = np.random.multivariate_normal(mean2, cov2, size2).T
+    y2 = np.zeros((x2.shape[1], 1))
+    
+    X = np.concatenate((x1.T, x2.T), axis = 0)
+    y = np.concatenate((y1, y2), axis = 0)
+
+    return (X, y)
+
+
 def sigmoid(z):
     return 1.0 / (1 + np.exp(-z))
+
 
 def cost_function(h, y):
     N = y.shape[0]
@@ -14,6 +35,7 @@ def cost_function(h, y):
     cost *= (-1/N)
 
     return cost
+
 
 def logistic_fit(X, y, w = None, batch_size = None, learning_rate = 1e-2, num_iterations = 1000, return_history = False):
     '''
@@ -26,7 +48,7 @@ def logistic_fit(X, y, w = None, batch_size = None, learning_rate = 1e-2, num_it
     :param learning_rate: parâmetro real do gradient descent
     :param num_iterations: quantidade de vezes que o conjunto X é percorrido
     :param return_history: booleano, controla output da função
-    :return w_final: array 1D (d + 1 x 1) de pesos ao final das iterações
+    :return w: array 1D (d + 1 x 1) de pesos ao final das iterações
     '''
 
     N, d = X.shape
@@ -41,21 +63,17 @@ def logistic_fit(X, y, w = None, batch_size = None, learning_rate = 1e-2, num_it
         w = np.reshape(w, (d + 1, 1))
 
     for i in range(num_iterations):
-        # sample batch size parameter
         if batch_size:
             idx = np.random.choice(N, batch_size, replace = False)
             X = X_sample[idx, :]
             y = y_sample[idx, :]
 
-        # compute gradient
         z = np.dot(X, w)
         h = sigmoid(z)
         gradient = np.dot(X.T, (h - y)) / N
 
-        # append to cost history (return history parameter)
         cost_history[i] = cost_function(h, y)
 
-        # update w
         w -= learning_rate * gradient
 
     if return_history:
@@ -80,16 +98,6 @@ def logistic_predict(X, w):
     
     return predictions
 
-def generate_dataset(mean1, mean2, cov1, cov2, size1, size2):
-    x1 = np.random.multivariate_normal(mean1, cov1, size1).T
-    y1 = np.ones((x1.shape[1], 1))
-    x2 = np.random.multivariate_normal(mean2, cov2, size2).T
-    y2 = np.zeros((x2.shape[1], 1))
-    
-    X = np.concatenate((x1.T, x2.T), axis = 0)
-    y = np.concatenate((y1, y2), axis = 0)
-
-    return (X, y)
 
 def plot_predictions(X, pred):
     X1 = [[],[]]
@@ -110,36 +118,40 @@ def plot_predictions(X, pred):
     plt.axis('equal')
 
 
-mean1 = (4, 2)
-mean2 = (10, 2)
-cov1 = [[2, 0], [0, 2]]
-cov2 = [[1.5, 3], [3, 1.5]]
+def run_test():
+    # testes em 2D
+    mean1 = (4, 2)
+    mean2 = (10, 2)
+    cov1 = [[2, 0], [0, 2]]
+    cov2 = [[1.5, 3], [3, 1.5]]
 
-mean3 = (4, 2, 1)
-mean4 = (10, 2, 1)
+    # testes em 3D
+    mean3 = (4, 2, 1)
+    mean4 = (10, 2, 1)
 
-cov3 = [[3, 2, 1],
-        [2, 4, 0],
-        [1, 0, 2]]
+    cov3 = [[3, 2, 1],
+            [2, 4, 0],
+            [1, 0, 2]]
 
-mean5 = (4, 2, 1, 1)
-mean6 = (10, 6, 2, 1)
+    # testes em 4D
+    mean5 = (4, 2, 1, 1)
+    mean6 = (10, 6, 2, 1)
 
-cov4 = [[4, 2, 2, 1],
-        [2, 3, 0, 1],
-        [2, 0, 2, 0],
-        [1, 1, 0, 1]]
+    cov4 = [[4, 2, 2, 1],
+            [2, 3, 0, 1],
+            [2, 0, 2, 0],
+            [1, 1, 0, 1]]
 
-#cov2 = [[1.5, 3], [3, 1.5]]
+    X, y = generate_dataset(mean1, mean2, cov1, cov1, 10000, 10000)
+    w = logistic_fit(X, y, learning_rate = 0.1, num_iterations = 10000, return_history = True)
+    pred = logistic_predict(X, w)
 
-X, y = generate_dataset(mean5, mean6, cov4, cov4, 10000, 10000)
-w = logistic_fit(X, y, learning_rate=0.1, num_iterations=10000, return_history=True)
-pred = logistic_predict(X, w)
+    plot_predictions(X, pred)
+    plt.show()
 
-#plot_predictions(X, pred)
-    
 
-plt.show()
+if __name__ == "__main__":
+    run_test()
 
 
 
