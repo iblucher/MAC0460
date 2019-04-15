@@ -3,6 +3,7 @@ import random
 import matplotlib.pyplot as plt
 import itertools
 import sklearn.datasets
+import seaborn as sns
 
 def sigmoid(z):
     return 1.0 / (1 + np.exp(-z))
@@ -102,23 +103,43 @@ def plot_predictions(X, pred):
             X2[0].append(Xt[0][i])
             X2[1].append(Xt[1][i])
     
-    plt.plot(X1[0], X1[1], 'x', marker = '.', color = 'r')
-    plt.plot(X2[0], X2[1], 'x', marker = '.', color = 'b')
-    plt.show()
-    
+    plt.plot(X1[0], X1[1], 'x', marker = '.', color = 'c')
+    plt.plot(X2[0], X2[1], 'x', marker = '.', color = 'greenyellow')
+    plt.plot(2,2, marker = '.', color='w', markersize = 2)
+    plt.plot(10,2, marker = '.', color = 'w', markersize = 2)
+    plt.axis('equal')
+
 
 mean1 = (4, 2)
 mean2 = (10, 2)
 cov1 = [[2, 0], [0, 2]]
+cov2 = [[1.5, 3], [3, 1.5]]
 
-X, y = generate_dataset(mean1, mean2, cov1, cov1, 10000, 10000)
+mean3 = (4, 2, 1)
+mean4 = (10, 2, 1)
 
-w = logistic_fit(X, y, learning_rate=0.1, num_iterations=10000, return_history=False)
+cov3 = [[3, 2, 1],
+        [2, 4, 0],
+        [1, 0, 2]]
+
+mean5 = (4, 2, 1, 1)
+mean6 = (10, 6, 2, 1)
+
+cov4 = [[4, 2, 2, 1],
+        [2, 3, 0, 1],
+        [2, 0, 2, 0],
+        [1, 1, 0, 1]]
+
+#cov2 = [[1.5, 3], [3, 1.5]]
+
+X, y = generate_dataset(mean5, mean6, cov4, cov4, 10000, 10000)
+w = logistic_fit(X, y, learning_rate=0.1, num_iterations=10000, return_history=True)
 pred = logistic_predict(X, w)
 
+#plot_predictions(X, pred)
+    
 
-plot_predictions(X, pred)
-
+plt.show()
 
 
 
