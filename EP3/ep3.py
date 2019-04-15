@@ -90,14 +90,20 @@ def generate_dataset(mean1, mean2, cov1, cov2, size1, size2):
 
     return (X, y)
 
-
 def plot_predictions(X, pred):
+    X1 = [[],[]]
+    X2 = [[],[]]
+    Xt = X.T
     for i in range(len(pred)):
         if pred[i] > 0.5:
-            color = 'r'
+            X1[0].append(Xt[0][i])
+            X1[1].append(Xt[1][i])
         else:
-            color = 'b'
-        plt.plot(X.T[0][i], X.T[1][i], 'x', marker = '.', color = color)
+            X2[0].append(Xt[0][i])
+            X2[1].append(Xt[1][i])
+    
+    plt.plot(X1[0], X1[1], 'x', marker = '.', color = 'r')
+    plt.plot(X2[0], X2[1], 'x', marker = '.', color = 'b')
     plt.show()
     
 
@@ -105,12 +111,13 @@ mean1 = (4, 2)
 mean2 = (10, 2)
 cov1 = [[2, 0], [0, 2]]
 
-X, y = generate_dataset(mean1, mean2, cov1, cov1, 1000, 1000)
+X, y = generate_dataset(mean1, mean2, cov1, cov1, 10000, 1000)
 
-w = logistic_fit(X, y, learning_rate=0.1, num_iterations=10000, return_history=True)
+w = logistic_fit(X, y, learning_rate=0.1, num_iterations=10000, return_history=False)
 pred = logistic_predict(X, w)
 
-plot_predictions(X, pred)
+
+plot_predictions2(X, pred)
 
 
 
