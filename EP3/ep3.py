@@ -111,13 +111,13 @@ mean1 = (4, 2)
 mean2 = (10, 2)
 cov1 = [[2, 0], [0, 2]]
 
-X, y = generate_dataset(mean1, mean2, cov1, cov1, 10000, 1000)
+X, y = generate_dataset(mean1, mean2, cov1, cov1, 10000, 10000)
 
 w = logistic_fit(X, y, learning_rate=0.1, num_iterations=10000, return_history=False)
 pred = logistic_predict(X, w)
 
 
-plot_predictions2(X, pred)
+plot_predictions(X, pred)
 
 
 
