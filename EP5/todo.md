@@ -1,12 +1,13 @@
 # TODO EP5
 
 - Dataset do MNIST (ver exemplo EP4)
-    - Selecionar classes 0 a 4
-    - Montar conjunto de teste
-    - Montar conjunto de treinamento + validação
-        - 500 exemplos **aleatórios** de cada classe
-        - Formato flattened com valores normalizados no intervalo [0, 1]
-    - Montar arrays de rótulos para treino e teste
+    - [X] Selecionar classes 0 a 4
+    - [X] Montar conjunto de teste
+    - [X] Montar conjunto de treinamento + validação
+        - [X] 500 exemplos **aleatórios** de cada classe
+        - [X] Formato flattened
+        - [X] Valores normalizados no intervalo [0, 1]
+    - [X] Montar arrays de rótulos para treino e teste
 
 - Cross-validation (5-fold)
     - SVM
