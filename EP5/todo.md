@@ -8,6 +8,7 @@
         - [X] Formato flattened
         - [X] Valores normalizados no intervalo [0, 1]
     - [X] Montar arrays de rótulos para treino e teste
+    - Embaralhar X_train e Y_train
 
 - Cross-validation (5-fold)
     - SVM
