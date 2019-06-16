@@ -28,7 +28,8 @@ def create_dataset(x_train, y_train, x_test, y_test):
 
     X_train = np.concatenate(X_train, axis = 0)
     Y_train = np.concatenate(Y_train, axis = 0).astype('float32')
-        
+
+    # Normalize pixels to [0, 1] interval    
     X_train = np.divide(flatten_examples(X_train), 255)
     X_test = np.divide(flatten_examples(X_test), 255)
 

@@ -1,5 +1,7 @@
 import numpy as np
+
 from keras.datasets import mnist
+from sklearn.utils import shuffle
 
 from dataset_assembly import create_dataset
 
@@ -11,3 +13,5 @@ print(X_train.shape, Y_train.shape)
 print(X_test.shape, Y_test.shape)
 
 # Shuffle data
+X_train, Y_train = shuffle(X_train, Y_train)
+
