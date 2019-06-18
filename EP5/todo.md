@@ -11,9 +11,9 @@
     - [X] Embaralhar X_train e Y_train
 
 - Cross-validation (5-fold)
-    - SVM
-    - Rede neural
-    - Cross-validation accuracy para selecionar o melhor algoritmo
+    - [X] SVM
+    - [X] Rede neural
+    - [X] Cross-validation accuracy para selecionar o melhor algoritmo
 
 - Teste final
     - Escolher algoritmo e parâmetros que performaram melhor e treinar com todos os dados
